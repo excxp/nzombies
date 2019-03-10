@@ -73,6 +73,7 @@ function ENT:SetExplosionTimer( time )
 	self:SetTargetPriority(TARGET_PRIORITY_SPECIAL)
 	
 	UpdateAllZombieTargets(self)
+	table.insert(NonHumanTargets, self)
 
 	SafeRemoveEntityDelayed( self, time +1 ) --fallback
 	
@@ -100,6 +101,8 @@ function ENT:SetExplosionTimer( time )
 
 			self:Remove()
 		end
+		
+		table.RemoveByValue(NonHumanTargets, self)
 	end)
 end
 
