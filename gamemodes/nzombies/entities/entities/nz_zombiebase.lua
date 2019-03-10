@@ -7,6 +7,10 @@ CreateConVar( "nz_zombie_debug", "0", { FCVAR_REPLICATED, FCVAR_ARCHIVE, FCVAR_C
 This Base is not really spawnable but it contains a lot of useful functions for it's children
 --]]
 
+-- global nonhuman target table so we can do fast target searches
+-- anything besides players that is a target (monkey bombs, vr11 agents, etc) need to add themself
+NonHumanTargets = {}
+
 --Boring
 ENT.Base = "base_nextbot"
 ENT.PrintName = "Zombie"
@@ -656,7 +660,7 @@ function ENT:GetPriorityTarget()
 	self:SetLastTargetCheck( CurTime() )
 
 	--if you really would want something that atracts the zombies from everywhere you would need something like this
-	local allEnts = ents.GetAll()
+	--local allEnts = ents.GetAll()
 	--[[for _, ent in pairs(allEnts) do
 		if ent:GetTargetPriority() == TARGET_PRIORITY_ALWAYS and self:IsValidTarget(ent) then
 			return ent
@@ -671,8 +675,10 @@ function ENT:GetPriorityTarget()
 	local targetDist = maxdistsqr + 10
 
 	--local possibleTargets = ents.FindInSphere( self:GetPos(), self:GetTargetCheckRange())
+	local targetTables = {player.GetHumans(), NonHumanTargets}
 
-	for _, target in pairs(allEnts) do
+	for _, targets in pairs(targetTables) do
+	    for _, target in pairs(targets) do
 		if self:IsValidTarget(target) and !self:IsIgnoredTarget(target) then
 
 			if target:GetTargetPriority() == TARGET_PRIORITY_ALWAYS then return target end
@@ -694,6 +700,7 @@ function ENT:GetPriorityTarget()
 				--print(highestPriority, bestTarget, targetDist, maxdistsqr)
 			end
 		end
+	   end
 	end
 
 	return bestTarget
