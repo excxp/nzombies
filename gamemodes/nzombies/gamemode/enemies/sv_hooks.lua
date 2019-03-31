@@ -64,7 +64,7 @@ function GM:EntityTakeDamage(zombie, dmginfo)
 	-- Who's Who clones can't take damage!
 	if zombie:GetClass() == "whoswho_downed_clone" then return true end
 	
-	if zombie.Alive and zombie:Alive() and zombie:Health() < 0 then zombie:Kill(dmginfo) end
+	if zombie.Alive and zombie:Alive() and zombie:Health() <= 0 then zombie:Kill(dmginfo) end
 	
 	local attacker = dmginfo:GetAttacker()
 
