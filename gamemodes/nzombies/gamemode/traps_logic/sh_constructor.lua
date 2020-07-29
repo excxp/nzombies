@@ -33,7 +33,9 @@ if SERVER then
 	nzMapping:AddSaveModule("TrapsLogic", {
 		savefunc = function()
 			local traps_logic = {}
-			local classes = nzTraps:GetAll()
+			local classes = {}
+			table.CopyFromTo(nzTraps:GetAll(), classes)
+
 			table.Add(classes, nzLogic:GetAll())
 			for k, class in pairs(classes) do
 				for _, ent in pairs(ents.FindByClass(class)) do
