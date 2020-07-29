@@ -121,7 +121,7 @@ properties.Add( "nz_lock", {
 		local door = ent:GetDoorData()
 		if !door then door = {} end
 		
-		door.flag = door.flag or 0
+		door.flag = door.flag and 1 or 0
 		door.link = door.link or 1
 		door.price = door.price or 1000
 		door.elec = door.elec or 0
