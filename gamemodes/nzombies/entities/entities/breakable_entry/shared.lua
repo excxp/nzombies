@@ -50,7 +50,9 @@ function ENT:RemovePlank()
 
 	local plank = table.Random(self.Planks)
 	
-	if !IsValid(plank) and plank != nil then -- Not valid but not nil (NULL)
+	if (plank == nil) then
+		return
+	elseif !IsValid(plank) then -- Not valid but not nil (NULL)
 		table.RemoveByValue(self.Planks, plank) -- Remove it from the table
 		self:RemovePlank() -- and try again
 	end
