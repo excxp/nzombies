@@ -8,7 +8,7 @@ local function RegisterDefaultSpecialWeps()
 	nzSpecialWeapons:AddSpecialGrenade( "nz_monkey_bomb", 3, false, 3, false, 0.4 )
 	
 	nzSpecialWeapons:AddDisplay( "nz_revive_morphine", false, function(wep)
-		return !IsValid(wep.Owner:GetPlayerReviving())
+		return !(IsValid(wep.Owner:GetPlayerReviving()) and wep.Owner:KeyDown(IN_USE))
 	end)
 	
 	nzSpecialWeapons:AddDisplay( "nz_perk_bottle", false, function(wep)
